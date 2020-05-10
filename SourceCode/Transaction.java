@@ -6,7 +6,7 @@ public class Transaction {
     private String title; 
 
     Transaction() {
-        this.date = IOHandler.dateInput("")
+        this.date = IOHandler.dateInput();
         this.amount = IOHandler.longInput("amount");
         this.title = IOHandler.stringInput("date");
     }

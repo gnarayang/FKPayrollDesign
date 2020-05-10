@@ -7,13 +7,13 @@ public class IOHandler {
     public static Scanner in = new Scanner(System.in);
     public static int menuDepth = 1;
 
-    public static void IncrementMenuDepth() {
+    public static void incrementMenuDepth() {
         menuDepth++;
         System.out.println();
         System.out.println();        
     }
 
-    public static void DecrementMenuDepth() {
+    public static void decrementMenuDepth() {
         menuDepth--;
         System.out.println();
         System.out.println();
