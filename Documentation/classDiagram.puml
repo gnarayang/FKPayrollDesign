@@ -1,0 +1,129 @@
+@startuml
+enum PaymentMethod {
+    + BANK
+    + PAYMASTER
+    + SENDBYPOST
+}
+
+class Transaction {
+    - Date : date
+    - long : amount
+    - string : title
+    + getDate()
+    + setDate()
+    + getAmount()
+    + setAmount()
+    + getTitle()
+    + setTitle()
+}
+
+class Employee <<abstract>> {
+    - String : name
+    - int : id
+    - String : address
+    - String : bankName
+    - String : accountNumber
+    - Boolean : unionMember
+    - ArrayList<long> : unionDues
+    - PayemntMethod : paymentMethod
+    - ArrayList<Transaction> : companyTransactions
+    + getName()
+    + setName()
+    + getId()
+    + setId()
+    + getAddress()
+    + setAddress()
+    + getBankName()
+    + setBankName()
+    + getAccountNumber()
+    + setAccountNumber()
+    + isUnionMember()
+    + setUnionMember()
+    + getUnionDues()
+    + setUnionDues()
+    + getPaymentMethod()
+    + setPaymentMethod()
+    + AddUnionDues()
+    + printEditables()
+    + takeEditOption()
+    + EditChoice()
+    + Editdetails()
+}
+
+class MonthlyEmployee {
+    - long : salary
+    - ArrayList<Transaction> : sales
+    + getSalary()
+    + setSalary()
+    + getSales()
+    + setSales()
+    + addSales()
+    + printEditables()
+    + takeEditOption()
+    + EditChoice()
+}
+
+class HourlyEmployee {
+    - ArrayList<Long> : hours
+    - long : perHour
+    + getHours()
+    + setHours()
+    + getPerHour()
+    + setPerHour()
+    + addHours()
+}
+
+class EmployeeList<<T extends Employee>> {
+    - ArrayList<T> : records
+    - Random : random
+    - boolean[100000] generatedID
+    + addEmployee()
+    + deleteEmployee()
+    + searchEmployeeByName()
+    + searchEmployeeById()
+    + search()
+    + generateID()
+}
+
+class IOHandler {
+    - int : menuDepth
+    + incrementMenuDepth()
+    + decrementMenuDepth()
+    + integerInput()
+    + longInput()
+    + doubleInput()
+    + stringInput()
+    + dateInput()
+    + menuInput()
+    + menuPrint()
+}
+
+class PayrollApplication {
+    - Date : currentDate
+    + EmployeeList<MonthlyEmployee> : monthlyEmployeeList
+    + EmployeeList<HourlyEmployee> : hourlyEmployeeList
+    + startDay()
+    + addEmployee()
+    + deleteEmployee()
+    + addTimeCard()
+    + addSalesReceipt()
+    + editEmployeeDetails()
+    + endDay()
+}
+
+PayrollApplication "1" o-- "many" EmployeeList : has >
+PayrollApplication -- HourlyEmployee : edits >
+PayrollApplication -- MonthlyEmployee : edits > 
+PayrollApplication -- IOHandler : uses >
+PayrollApplication -- Transaction : creates > 
+IOHandler -- HourlyEmployee : uses <
+IOHandler -- MonthlyEmployee : uses <
+IOHandler -- Employee : uses <
+IOHandler -- Transaction : uses <
+EmployeeList "1" o-- "many" HourlyEmployee : has >
+EmployeeList "1" o-- "many" MonthlyEmployee : has >
+HourlyEmployee <|-- Employee : Subclass of <
+MonthlyEmployee <|-- Employee : Subclass of <
+Employee "1" --* "many" Transaction : has >
+Employee "1" --* "1" PaymentMethod : has >
+@enduml

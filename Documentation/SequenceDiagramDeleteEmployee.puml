@@ -1,0 +1,31 @@
+@startuml
+    actor Admin
+    participant IOHandler
+
+    Admin -> IOHandler : Choose delete employee option
+    IOHandler -> RunPayrollApplication : Delete employee
+    RunPayrollApplication -> IOHandler : Ask details
+    IOHandler -> Admin : Enter details
+    Admin -> IOHandler : Enters details
+    IOHandler -> RunPayrollApplication : Return details
+    RunPayrollApplication -> EmployeeList : Delete Employee
+    EmployeeList -> EmployeeList : Search employee
+    
+    database Database
+
+    alt Employee Not Found
+        
+        EmployeeList -> RunPayrollApplication : return NULL
+        RunPayrollApplication -> IOHandler : Wrong details entered
+        IOHandler -> Admin : Wrong details entered
+
+    else 
+        
+        EmployeeList -> Database : Delete employee
+        Database -> EmployeeList : Employee deleted
+        EmployeeList -> RunPayrollApplication : Successfully deleted
+        RunPayrollApplication -> IOHandler : Successfully deleted
+        IOHandler -> Admin : Successfully deleted
+
+    end
+@enduml

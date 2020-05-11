@@ -1,0 +1,52 @@
+@startuml
+    actor Admin
+    participant IOHandler
+    participant RunPayrollApplication
+    participant EmployeeList
+    participant MonthlyEmployee
+    participant HourlyEmployee
+    database Database
+
+    Admin -> IOHandler : Add employee option
+    IOHandler -> RunPayrollApplication : Add employee
+    RunPayrollApplication -> IOHandler : Type of employee to be created
+    IOHandler -> Admin : Type of employee to be created
+    Admin -> IOHandler : Type of employee to be created
+    IOHandler -> RunPayrollApplication : Type of employee to be created
+    RunPayrollApplication -> EmployeeList : Add employee
+    
+    alt HourlyEmployee
+        
+        EmployeeList -> HourlyEmployee : Create employee paid monthly
+        HourlyEmployee -> IOHandler : Ask details
+    
+    else 
+        
+        EmployeeList -> MonthlyEmployee : Create employee paid hourly
+        MonthlyEmployee -> IOHandler : Ask details
+    
+    end
+
+    loop for all details
+        IOHandler -> Admin : Ask details of new employee
+        Admin -> IOHandler : Enter details
+    
+    end
+
+    alt HourlyEmployee
+    
+        IOHandler -> HourlyEmployee : Return details
+        HourlyEmployee -> EmployeeList : Return Employee subclass object
+    
+    else MonthlyEmployee
+        
+        IOHandler -> MonthlyEmployee : Return details
+        MonthlyEmployee -> EmployeeList : Return Employee subclass object
+    
+    end
+
+    EmployeeList -> RunPayrollApplication : Added employee
+    RunPayrollApplication -> Database : Add employee
+    RunPayrollApplication -> IOHandler : Employee successfully added
+    IOHandler -> Admin : : Employee successfully added
+@enduml
